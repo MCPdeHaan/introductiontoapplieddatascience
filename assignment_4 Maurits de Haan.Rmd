@@ -31,8 +31,7 @@ However, you will also pair up with a class mate and contribute to each others' 
 This interpretation will not be graded, but a Github shows the contributors to a certain repository. This way, we can see whether you have contributed to a repository of a class mate.
 
 **Question 1.1**: Fill in the **github username** of the class mate to whose repository you have contributed.
-
-[Fill in here]
+The username of the class mate I did the project with is: Wojtek331
 
 ### Part 2: Analyzing various linear models
 
