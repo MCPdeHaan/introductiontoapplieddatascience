@@ -60,6 +60,7 @@ summary
 
 **Designated place**: type one or two sentences describing this table of a fellow student below. For example, comment on the mean and median growth of both groups. Then stage, commit and push it to their github repository.
 
+ANSWER TO DESIGNATED QS: In Maurits table we can see mean, median, sd max and min values for both growth and rgdp. I will focus on the analysis on mean and median. The mean of the growth is higher in in the countries that have no revolution = 2.46 than the countries that had revolution = 1.68, and the median value is also higher for the countries where there was no revolution 2.29, as they have slow steady growth, whereas in the revolution one 1.92 there is often a high jump rather than slow steady growth. In both we observe that countries with revolution have lower median and mean as the growth rate can increase a lot during shorter period rather than continues growth.
 
 ### Part 3: Make a table summarizing reressions using modelsummary and kable
 
