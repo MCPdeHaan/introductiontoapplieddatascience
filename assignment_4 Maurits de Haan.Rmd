@@ -31,7 +31,7 @@ However, you will also pair up with a class mate and contribute to each others' 
 This interpretation will not be graded, but a Github shows the contributors to a certain repository. This way, we can see whether you have contributed to a repository of a class mate.
 
 **Question 1.1**: Fill in the **github username** of the class mate to whose repository you have contributed.
-The username of the class mate I did the project with is: Wojtek331
+The username of the class mate I did the project with is: **Wojtek331**
 
 ### Part 2: Analyzing various linear models
 
@@ -59,7 +59,6 @@ summary
 ```
 
 **Designated place**: type one or two sentences describing this table of a fellow student below. For example, comment on the mean and median growth of both groups. Then stage, commit and push it to their github repository.
-If I look at the table of Wojtek, I see the that the value for GDP per capita in 1960 was 5283.32 on average for countries that had now revolutions and over two times smaller for countries that had a revolution (1988.67). This is logical, since the reason why a revolution occurred is often that something (often the economy) underperformed or the revolution had a big effect on the internal and external economy in a country, as shown by the lower average GDP per capita in 1960 for countries that had one or more revolutions. 
 
 
 ### Part 3: Make a table summarizing reressions using modelsummary and kable
@@ -69,10 +68,12 @@ In question 2, we have seen that growth rates differ markedly between countries 
 **Question 3.1**: Try to make this more precise this by performing a t-test on the variable growth according to the group variable you have created in the previous question.
 
 ```{r}
-t.test(GrowthSW$growth ~ GrowthSW$treat)
+t_test <- t.test(growth ~ treat, data = GrowthSW)
+print(t_test)
 ```
 
-**Question 3.2**: What is the $p$-value of the test, and what does that mean? Write down your answer below. The $p$-value that the t-test gives is **0.06871**. The goal of the p-value is to show what the probability is that we obtain the observed results, while assuming that the null hypothesis ($H_0$) is true. The general rule is: *The lower the p-value, the greater the statistical significance of the observed difference.* ([Alwan et. al., 2020](https://store.macmillanlearning.com/us/product/The-Practice-of-Statistics-for-Business-and-Economics/p/1319109004)). So, the p-value is greater than 0.05 which means that we cannot reject the null hypothesis ($H_0$) that there is no significant difference between "no revolution" and "revolution" in terms of the growth variable.
+**Question 3.2**: What is the $p$-value of the test, and what does that mean? Write down your answer below. 
+The $p$-value that the t-test gives is **0.06871**. The goal of the p-value is to show what the probability is that we obtain the observed results, while assuming that the null hypothesis ($H_0$) is true. The general rule is: "*The lower the p-value, the greater the statistical significance of the observed difference.*" ([Alwan et. al., 2020](https://store.macmillanlearning.com/us/product/The-Practice-of-Statistics-for-Business-and-Economics/p/1319109004)). So, the p-value is greater than 0.05 which means that we cannot reject the null hypothesis ($H_0$) that there is no significant difference between "no revolution" and "revolution" in terms of the growth variable. This suggests that there is not enough evidence to conclude that the presence of a revolution has a significant impact on economic growth, at least based on the available data.
 
 We can also control for other factors by including them in a linear model, for example:
 
@@ -93,17 +94,11 @@ We now want to estimate a stepwise model. Stepwise means that we first estimate 
 ```{r}
 library(AER)
 
-# Model 1
 model1 <- lm(growth ~ treat, data = GrowthSW)
-
-# Model 2
 model2 <- update(model1, ~. + rgdp60)
-
-# Model 3
 model3 <- update(model2, ~. + tradeshare)
-
-# Model 4
 model4 <- update(model3, ~. + education)
+memory <- list(model1 = model1, model2 = model2, model3 = model3, model4 = model4)
 ```
 
 Now, we put the models in a list, and see what `modelsummary` gives us:
@@ -121,7 +116,6 @@ list(model1, model2, model3, model4) |>
 **Question 3.6**: According to this analysis, what is the main driver of economic growth? Why?
 
 The main driver of economic growth is `education`, since the coefficient on the variable `education` is positive and statistically significant in all four models. This suggests that an increase in education leads to an increase in economic growth. The other variables in the model also have some impact on economic growth, but the impact of education is the strongest. This is likely because education increases the skills of the workforce, which makes children more productive in the future.
-
 Overall, the results of this analysis suggest that education is a key driver of economic growth. Policies that promote education are likely to lead to higher rates of economic growth in the long run.
 
 **Question 3.7**: In the code chunk below, edit the table such that the cells (including standard errors) corresponding to the variable `treat` have a red background and white text. Make sure to load the `kableExtra` library beforehand.
@@ -130,16 +124,17 @@ Overall, the results of this analysis suggest that education is a key driver of 
 library(kableExtra)
 library(modelsummary)
 
-list(model1, model2, model3, model4) |>
-  modelsummary(stars=T, gof_map = c("nobs", "r.squared")) %>%
-  kable() %>%
-  row_spec(background = "red", color = "white")
+table <- list(model1, model2, model3, model4) |>
+  modelsummary(
+    gof_map = c("nobs", "r.squared"),
+  ) %>%
+  row_spec(row = 3:4, background = "red", color = "white")
+table
 ```
 
 **Question 3.8**: Write a piece of code that exports this table (without the formatting) to a Word document.
-
 ```{r}
-
+sjPlot::tab_df(table, file = "output.doc")
 ```
 
 ## The End
